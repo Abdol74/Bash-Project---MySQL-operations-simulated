@@ -1,0 +1,22 @@
+#!/bin/bash
+
+FILE="/home/serry/MySQL/DB_admins.db"
+
+echo 'Enter new admin user:'
+
+read admin_user
+
+if grep -q "$USER" "$FILE" ;
+
+	then if grep -q "$admin_user" "$FILE";
+
+	then echo 'User already exists';
+
+	else echo $admin_user >> $FILE;
+	echo 'Added Successfully';
+		
+	fi
+
+else echo 'Permission denied';
+		
+fi

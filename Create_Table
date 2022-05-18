@@ -1,0 +1,37 @@
+#!/bin/bash
+
+FILE="/home/serry/MySQL/DB_admins.db"
+DATABASES="/home/serry/MySQL/Databases"
+DELIMETER=","
+if grep -q "$USER" "$FILE" ; then
+
+	select database in $(ls $DATABASES)
+	do
+	if grep -q "$USER" "$DATABASES/$database/owner.txt"; then
+		echo 'Enter table name:'
+		read tableName
+		if [[ -f "$DATABASES/$database/$tableName" ]];
+		then echo 'Table exists'
+		break;
+		else
+			touch $DATABASES/$database/$tableName;
+		       	echo 'Enter number of columns:' 
+		read NoColumns
+		for (( i = 1 ; i <= $NoColumns ; i++))
+		do
+		echo 'Enter column name:'
+		read columnName
+		if [[ ! $i -eq $NoColumns ]];then
+		echo -n $columnName$DELIMETER >> $DATABASES/$database/$tableName
+		else
+		       	echo -e $columnName >> $DATABASES/$database/$tableName
+		fi
+		done
+		echo 'Table created'
+		break;
+		fi
+	fi
+	done
+fi	
+
+

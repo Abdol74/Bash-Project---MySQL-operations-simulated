@@ -1,0 +1,26 @@
+#!/bin/bash
+
+echo "Enter your Database Name"
+
+read databaseName
+FILE="/home/serry/MySQL/DB_admins.db"
+
+let DbFlag=0
+if grep -q "$USER" "$FILE" ; then
+for i in $(ls); do
+
+if [[ $databaseName = $i ]]; then
+echo "Database Already exists"
+
+DbFlag=1
+break
+fi
+done
+
+if [[ $DbFlag -eq 0 ]]; then
+mkdir /home/serry/MySQL/Databases/$databaseName
+touch /home/serry/MySQL/Databases/$databaseName/owner.txt
+echo $USER >> ~/MySQL/Databases/$databaseName/owner.txt
+echo "$databaseName is created"
+fi
+fi

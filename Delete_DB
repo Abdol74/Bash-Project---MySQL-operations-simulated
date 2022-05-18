@@ -1,0 +1,21 @@
+#!/bin/bash
+
+FILE="/home/serry/MySQL/DB_admins.db"
+
+if grep -q "$USER" "$FILE";
+then select database in $(ls /home/serry/MySQL/Databases)
+do
+        if grep -q "$USER" "/home/serry/MySQL/Databases/$database/owner.txt" ;  then
+		$(rm -r /home/serry/MySQL/Databases/$database) ;
+		echo 'Database is deleted'
+		break;
+
+
+        else
+                echo 'You cannot delete this database'
+        fi
+done
+else
+        echo 'Permission denied';
+fi
+

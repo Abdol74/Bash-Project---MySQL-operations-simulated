@@ -1,0 +1,19 @@
+#!/bin/bash
+
+FILE="/home/serry/MySQL/DB_admins.db"
+
+if grep -q "$USER" "$FILE";
+then select user in $(cat /home/serry/MySQL/DB_admins.db)
+do
+	if [[ $user == "oracle" ]];  then
+		echo 'User oracle cannot be deleted';
+	else 
+		sed -i "/$user/d" "$FILE";
+		echo "User $user deleted"
+		exit;
+	fi
+done
+else
+	echo "Permission denied";
+fi
+

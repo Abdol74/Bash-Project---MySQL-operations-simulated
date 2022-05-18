@@ -1,0 +1,31 @@
+#!/bin/bash
+DATABASES='/home/serry/MySQL/Databases'
+select database in $(ls $DATABASES)
+   do
+	   select table in $(ls $DATABASES/$database)
+	do
+		select option in "Select all from $table" "Search by string"
+	do	
+	case $option in
+
+  "Select all from $table")
+    cat $DATABASES/$database/$table
+    exit;
+    ;;
+
+ "Search by string")
+	 echo 'Enter String'
+	 read string
+	 echo 'Query Result'
+    cat $DATABASES/$database/$table|grep -w "$string"
+    exit;
+
+    ;;
+esac
+	done
+done
+done
+
+	#read string
+	#cat $DATABASES$database$table|grep -w $string|awk -F, '     
+	

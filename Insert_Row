@@ -1,0 +1,49 @@
+#!/bin/bash
+
+FILE="/home/serry/MySQL/DB_admins.db"
+DATABASES="/home/serry/MySQL/Databases"
+DELIMETER=","
+x=1;
+if grep -q "$USER" "$FILE" ; then
+
+        select database in $(ls $DATABASES)
+        do
+        if grep -q "$USER" "$DATABASES/$database/owner.txt"; then
+	select table in $(ls $DATABASES/$database)
+	do
+	if [[ -f $DATABASES/$database/$table ]];then
+                
+	colNum=$(cat $DATABASES/$database/$table|head -1| awk -F, 'END{print NF;}');
+	for (( i=1; i<=$colNum ; i++))
+	do
+	cat $DATABASES/$database/$table|head -1| awk -F, '{print "Enter " $'$i';}'
+	read field;
+	 if [[ i -eq 1 ]];then
+		if cat $DATABASES/$database/$table| awk -F, '{print $1;}'| grep -w -q "$field";then echo 'Primary key should be unique';
+			exit;
+	else
+	 if [[ ! $i -eq $colNum ]];then
+	
+       echo -n $field$DELIMETER >> $DATABASES/$database/$table
+
+
+	else echo -e $field >> $DATABASES/$database/$table
+		break;
+	fi
+		fi
+	 fi
+
+done
+else echo 'Table does not exist'
+	exit;
+	fi
+done
+	fi
+done
+fi
+	
+
+
+	
+	
+	

@@ -1,0 +1,24 @@
+#!/bin/bash
+DATABASES='/home/serry/MySQL/Databases'
+select database in $(ls $DATABASES)
+   do
+           select table in $(ls $DATABASES/$database)
+        do
+	echo 'Enter string to delete row'
+	read string
+	lineNo=$(cat $DATABASES/$database/$table | grep -w "$string"|wc -l)
+	
+	sed -i "/$string/d" "$DATABASES/$database/$table"
+	echo "$lineNo rows deleted"
+	echo '*******************'
+        echo 'Updated Table'
+	cat $DATABASES/$database/$table
+	exit;
+
+
+	
+done
+done
+	
+
+
